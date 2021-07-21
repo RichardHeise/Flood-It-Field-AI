@@ -18,7 +18,7 @@ int main() {
     do {
         cin >> cor;
 
-        flood(&mapa, 0, 0, (char)cor);
+        floodFill(&mapa, 0, 0, mapa[0][0], (char)cor);
         EscreveMatriz(mapa, lin, col);
     }
     while ( !resolveu(mapa) );

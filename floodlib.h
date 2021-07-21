@@ -1,7 +1,10 @@
 using namespace std;
+#define MAX 40000
 
-void floodRecursivo (matriz *m, int posX, int posY, char corAnt, char novaCor);
+typedef pair<int, int> coordenada;
 
-void flood (matriz *m, int posX, int posY, char novaCor);
+void floodFill (matriz *m, int posX, int posY, char corAnt, char novaCor);
+
+int flood (matriz *m, int posX, int posY, char corAnt, char novaCor);
 
 int resolveu (matriz m);

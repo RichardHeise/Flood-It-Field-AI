@@ -1,28 +1,48 @@
 #include "matriz.h"
+#include "floodlib.h"
+#include <deque>
 using namespace std;
 
-void floodRecursivo (matriz *m, int posX, int posY, char corAnt, char novaCor)  {
+static void showq(deque<coordenada> gq)
+{
+    deque<coordenada> g = gq;
+    while (!g.empty()) {
+        cout << '\t' << g.front().first;
+        cout << '\t' << g.front().second;
+        g.pop_back();
+    }
+    cout << '\n';
+}
+  
+
+void floodFill (matriz *m, int posX, int posY, char corAnt, char novaCor)  {
     
-    if (posX < 0 || posX >= (*m).size() || posY < 0 || posY >= (*m)[0].size())
-        return;
-    if ((*m)[posX][posY] != corAnt)
-        return;
-    if ((*m)[posX][posY] == novaCor)
-        return;
- 
-    
-    (*m)[posX][posY] = novaCor;
- 
-    
-    floodRecursivo(&(*m), posX+1, posY, corAnt, novaCor);
-    floodRecursivo(&(*m), posX-1, posY, corAnt, novaCor);
-    floodRecursivo(&(*m), posX, posY+1, corAnt, novaCor);
-    floodRecursivo(&(*m), posX, posY-1, corAnt, novaCor);
+    deque<coordenada> lista;
+
+    lista.push_back(make_pair(posX, posY));
+
+    while (!lista.empty()) {
+        coordenada p_par = lista.back();
+        lista.pop_back();
+
+        if( flood(&(*m), p_par.first, p_par.second, corAnt, novaCor) ) {
+
+            lista.push_back(make_pair(p_par.first+1, p_par.second));
+            lista.push_back(make_pair(p_par.first-1, p_par.second));
+            lista.push_back(make_pair(p_par.first, p_par.second+1));
+            lista.push_back(make_pair(p_par.first, p_par.second-1));
+            
+        }
+    }
 }   
 
-void flood (matriz *m, int posX, int posY, char novaCor) {
-    char corAnt = (*m)[posX][posY];
-    floodRecursivo(&(*m), posX, posY, corAnt, novaCor);
+int flood (matriz *m, int posX, int posY, char corAnt, char novaCor) {
+    if (posX < 0 || posX >= (*m).size() || posY < 0 || posY >= (*m)[0].size()
+        || (*m)[posX][posY] != corAnt || (*m)[posX][posY] == novaCor)
+        return 0;
+
+    (*m)[posX][posY] = novaCor;
+    return 1;
 }
 
 int resolveu (matriz m) {    
