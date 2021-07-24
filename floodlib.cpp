@@ -1,6 +1,4 @@
-#include "matriz.h"
 #include "floodlib.h"
-#include <deque>
 using namespace std;
 
 static void showq(deque<coordenada> gq)
@@ -15,22 +13,23 @@ static void showq(deque<coordenada> gq)
 }
   
 
-void floodFill (matriz *m, int posX, int posY, char corAnt, char novaCor)  {
+void floodFill (matriz *m, char novaCor)  {
     
     deque<coordenada> lista;
 
-    lista.push_back(make_pair(posX, posY));
+    lista.push_back(make_pair(0, 0));
+    char corAnt = (*m)[0][0];
 
     while (!lista.empty()) {
-        coordenada p_par = lista.back();
+        coordenada aux = lista.back();
         lista.pop_back();
 
-        if( flood(&(*m), p_par.first, p_par.second, corAnt, novaCor) ) {
+        if ( flood(&(*m), aux.first, aux.second, corAnt, novaCor) ) {
 
-            lista.push_back(make_pair(p_par.first+1, p_par.second));
-            lista.push_back(make_pair(p_par.first-1, p_par.second));
-            lista.push_back(make_pair(p_par.first, p_par.second+1));
-            lista.push_back(make_pair(p_par.first, p_par.second-1));
+            lista.push_back(make_pair(aux.first+1, aux.second));
+            lista.push_back(make_pair(aux.first-1, aux.second));
+            lista.push_back(make_pair(aux.first, aux.second+1));
+            lista.push_back(make_pair(aux.first, aux.second-1));
             
         }
     }
