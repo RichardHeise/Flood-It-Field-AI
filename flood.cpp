@@ -14,7 +14,8 @@ int main() {
 
     //EscreveMatriz(mapa, lin, col);
     int cor;
-    descobreBorda(&mapa, 0, 0);
+    deque<coordenada> filaBordas = descobreBorda(&mapa, 0, 0);
+    escolheCor(&mapa, filaBordas );
 
     /*
     do {
