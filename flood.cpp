@@ -13,9 +13,17 @@ int main() {
     //mapa = geraMatriz(lin, col, cores);
 
     //EscreveMatriz(mapa, lin, col);
-    int cor;
-    deque<coordenada> filaBordas = descobreBorda(&mapa, 0, 0);
-    escolheCor(&mapa, filaBordas );
+    deque<char> resolveu;
+
+    resolveu = resolveFlood(mapa, make_pair(0, 0));
+
+    printf("tamanho: %lu \n", resolveu.size());
+
+    while ( !resolveu.empty() ) {
+        printf("%d ", resolveu.front());
+        resolveu.pop_front();
+    }
+    printf("\n");
 
     /*
     do {

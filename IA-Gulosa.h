@@ -12,6 +12,10 @@ int borda (matriz *m, deque<coordenada> *fb, deque<coordenada> *fv, coordenada c
 
 int encontraPosicao (deque<coordenada> f, coordenada  c);
 
-deque<pair<char, coordenada>> escolheCor(matriz *m, deque<coordenada> fb);
+pair<char, int> escolheCor (matriz *m, coordenada c);
 
 deque<coordenada> descobreCluster (matriz *m, char cor, coordenada inicio);
+
+//deque<char> resolveFlood (matriz m);
+
+deque<char> resolveFlood (matriz m, coordenada c);

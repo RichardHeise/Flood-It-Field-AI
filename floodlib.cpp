@@ -48,14 +48,9 @@ int resolveu (matriz m) {
     int cont = 0;
     for (int i = 0; i < m.size(); i++) {
         for (int j = 0; j < m[0].size(); j++)
-            if (m[i][j] == m[0][0]) 
-                cont++;
+            if (m[i][j] != m[0][0]) 
+                return 0;
     }
 
-    if (cont == (m.size() * m[0].size()) ) {
-        printf("Terminou\n");
-        return 1;    
-    }
-
-    return 0;
+    return 1;
 }

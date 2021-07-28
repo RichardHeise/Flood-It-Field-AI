@@ -30,7 +30,7 @@ deque<coordenada> descobreBorda (matriz *m, int posX, int posY)  {
 
             visitados.push_back(aux);
 
-            if ( (*m)[aux.first][aux.second] == corAtual ) {
+            if ( (*m)[aux.first][aux.second] == corAtual  ) {
                 visitar.push_back(make_pair(aux.first + 1, aux.second));
                 visitar.push_back(make_pair(aux.first - 1, aux.second));
                 visitar.push_back(make_pair(aux.first, aux.second + 1));
@@ -40,6 +40,7 @@ deque<coordenada> descobreBorda (matriz *m, int posX, int posY)  {
             }  
         }
     }
+
 
     return bordas;
 }   
@@ -66,7 +67,7 @@ static int encontraElemento (deque<pair<char, coordenada>> f, char e) {
     return 0;
 }
 
-deque<pair<char, coordenada>> escolheCor (matriz *m, deque<coordenada> fb) {
+pair<char, int> escolheCor (matriz *m, coordenada c, deque<coordenada> fb) {
 
     deque<pair<char, coordenada>> cores;
 
@@ -89,8 +90,7 @@ deque<pair<char, coordenada>> escolheCor (matriz *m, deque<coordenada> fb) {
         }
     }
 
-    printf("melhor jogada: %d, pois o cluster tem %d de tamanho. \n ", melhorCor.first, melhorCor.second);
-    return cores;
+    return melhorCor;
 }
 
 deque<coordenada> descobreCluster (matriz *m, char cor, coordenada inicio) {
@@ -125,28 +125,29 @@ deque<coordenada> descobreCluster (matriz *m, char cor, coordenada inicio) {
 
 }
 
-/*
-char resolveFlood (matriz m, int escopos, int cores) {
+deque<char> resolveFlood (matriz m, coordenada c) {
 
-    char melhorCor;
-    int tentativa;
+    deque<char> resolucao;
+    deque<coordenada> clusterOriginal;
 
-    for (tentativa = 0; tentativa < cores; tentativa++) {
-        floodFill(m, tentativa);
+    deque<coordenada> bordaAtual;
+    bordaAtual = descobreBorda(&m, c.first, c.second);
 
-        if ( resolveu(m) ) {
-            return tentativa;
-        }
-    } 
+    char melhorJogada = escolheCor(&m, c, bordaAtual).first;
+    resolucao.push_back(melhorJogada);
 
-    if ( escopos < MAX_ESCOPOS ) {
-        resolveFlood(m, melhorCor, escopos+1);
-
-    } else {
-        buscaMelhorCor();
+    floodFill(&m, melhorJogada);
+    if ( !resolveu(m) ) {
+        resolveFlood(m, c);
     }
 
-    return melhorCor;
 
+    return resolucao;
+}
+
+/*
+deque<char> resolveFlood (matriz m, int maxCores) {
+
+    resolveFloodRecursivo(&m, 0, maxCores);
 }
 */
