@@ -42,6 +42,7 @@ deque<coordenada> descobreBorda (matriz *m, int posX, int posY, deque<coordenada
         }
     }
 
+    (*ci) = visitados;
 
     return bordas;
 }   
@@ -169,25 +170,25 @@ char buscaMelhorJogada (matriz m, int escopos, coordenada coordAtual, deque<coor
     showq(borda);
     printf("}");
 
-    //if ( checaCoresBorda(cores) ) return cores[0].first;
-
-        
+    matriz temp;
     for (int i = 0; i < cores.size(); i++) {
+        temp = m;
 
-        printf("Cor Atual: %d \n", cores[0].first);
+        printf("Cor Atual: %d \n", cores[i].first);
         printf("=============================== \n");
-        floodFill(&m, cores[0].first);
-        if ( resolveu(m) ) {
-            return cores[0].first;
+        floodFill(&temp, cores[i].first);
+
+        EscreveMatriz(temp, temp.size(), temp[0].size());
+
+        if ( resolveu(temp) ) {
+            return cores[i].first;
         }
 
         coordAtual = cores[i].second;
-        possivelMaior = descobreCluster(&m, cores[i].first, cores[i].second).size();
-                        
-        if (escopos < MAX_ESCOPOS) {
-            return buscaMelhorJogada(m, escopos+1, coordAtual, clusterInicial, maiorCluster);
-        } else if ( (*maiorCluster) < possivelMaior ) {
-            (*maiorCluster) = possivelMaior;
+        possivelMaior = descobreCluster(&temp, cores[i].first, cores[i].second).size();
+
+        if ( (*maiorCluster) < possivelMaior ) {
+            (*maiorCluster) += possivelMaior;
             melhorCor = cores[i].first;
         }
     }
