@@ -15,16 +15,17 @@ int main() {
     //EscreveMatriz(mapa, lin, col);
     deque<char> resolveu;
 
-    resolveu = resolveFlood(mapa, make_pair(0, 0));
+    resolveu = resolveFlood(mapa);
 
-    printf("tamanho: %lu \n", resolveu.size());
+    //printf("tamanho: %lu \n", resolveu.size());
 
+    /*
     while ( !resolveu.empty() ) {
         printf("%d ", resolveu.front());
         resolveu.pop_front();
     }
     printf("\n");
-
+    */
     /*
     do {
         cin >> cor;
