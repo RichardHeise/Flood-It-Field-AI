@@ -127,97 +127,125 @@ int checaCoresBorda(deque<pair<char, coordenada>> cores) {
 
     deque<char> aux;
     for (int i = 0; i < cores.size(); i++) {
-        //printf("cor: %d, posicao: %d %d\n", cores[i].first, cores[i].second.first, cores[i].second.second);
-        //printf("valor: %d \n", encontraElementoCor(cores, cores[i].first));
+            //printf("cor: %d, posicao: %d %d\n", cores[i].first, cores[i].second.first, cores[i].second.second);
+            //printf("valor: %d \n", encontraElementoCor(cores, cores[i].first));
 
         if ( !encontraElementoChar(aux, cores[i].first) ) {
             aux.push_back(cores[i].first);
         }
     }
     /*
-    for (int i = 0; i < aux.size(); i++) {
-        printf("elemento: %d \n", aux[i]);
-    }
+        for (int i = 0; i < aux.size(); i++) {
+            printf("elemento: %d \n", aux[i]);
+        }
     */
     if (aux.size() > 1) return 0;
 
     return 1;
 }
 
-char buscaMelhorJogada (matriz m, int escopos, coordenada coordAtual, deque<coordenada> *clusterInicial, int *maiorCluster) {
+char buscaMelhorJogada (matriz m, int cores) {
 
-    deque<coordenada> borda;
-    deque<pair<char, coordenada>> cores;
+    deque<pair<char, int>> controle;
 
     int possivelMaior;
     char melhorCor;
-
-    borda = descobreBorda(&m, coordAtual.first, coordAtual.second, clusterInicial);
-    cores = possiveisCores(&m, coordAtual, borda);
-
-    printf("Profundidade: %d\n", escopos);
-    printf("tamanho cores: %lu \n", cores.size());
-    for (int w = 0; w < cores.size(); w++)
-        printf("cor: %d, posicao: %d %d\n", cores[w].first, cores[w].second.first, cores[w].second.second);
     
-    printf("checaBorda vale: %d\n", checaCoresBorda(cores));
-    printf("coordenada atual: %d %d\n", coordAtual.first, coordAtual.second);
-    printf("Maior Cluster: %d \n", (*maiorCluster));
-    printf("Cluster inicial: { \n");
-    showq((*clusterInicial));
-    printf("}\n");
-    printf("bordas: {\n");
-    showq(borda);
-    printf("}");
+    /*
+        printf("Profundidade: %d\n", escopos);
+        printf("tamanho cores: %lu \n", cores.size());
+        for (int w = 0; w < cores.size(); w++)
+            printf("cor: %d, posicao: %d %d\n", cores[w].first, cores[w].second.first, cores[w].second.second);
+        
+        printf("checaBorda vale: %d\n", checaCoresBorda(cores));
+        printf("coordenada atual: %d %d\n", coordAtual.first, coordAtual.second);
+        printf("Maior Cluster: %d \n", (*maiorCluster));
+        printf("Cluster inicial: { \n");
+        showq((*clusterInicial));
+        printf("}\n");
+        printf("bordas: {\n");
+        showq(borda);
+        printf("}");
+        
+        borda = descobreBorda(&m, coordAtual.first, coordAtual.second, clusterInicial);
+        cores = possiveisCores(&m, coordAtual, borda);
+    */
 
     matriz temp;
-    for (int i = 0; i < cores.size(); i++) {
+    for (int cor = 1; cor <= cores; cor++) {
         temp = m;
 
-        printf("Cor Atual: %d \n", cores[i].first);
-        printf("=============================== \n");
-        floodFill(&temp, cores[i].first);
+        /*
+            printf("Cor Atual: %d \n", cores[i].first);
+            printf("=============================== \n");
+        */
 
-        EscreveMatriz(temp, temp.size(), temp[0].size());
+        floodFill(&temp, cor);
+
+        //EscreveMatriz(temp, temp.size(), temp[0].size());
 
         if ( resolveu(temp) ) {
-            return cores[i].first;
+            return cor;
         }
 
-        coordAtual = cores[i].second;
-        possivelMaior = descobreCluster(&temp, cores[i].first, cores[i].second).size();
+        //coordAtual = cor;
+        possivelMaior = descobreCluster(&temp, (char)cor, make_pair(0,0)).size();
 
-        if ( (*maiorCluster) < possivelMaior ) {
-            (*maiorCluster) += possivelMaior;
-            melhorCor = cores[i].first;
-        }
+        controle.push_back(make_pair((char)cor, possivelMaior));
     }
 
     /*
-    showq(clusterInicial);
-    for (int i = 0; i < m.size(); i ++) {
-        for (int j = 0; j < m[0].size(); j++) {
-            if ( encontraPosicao(clusterInicial, make_pair(i,j)) ) {
-                printf("x");
-            } else {
-                printf("0");
-            }
-        }
+        for (int i =0; i < controle.size(); i++)
+            printf("melhor cor: %d\narea: %d\n", controle[i].first, controle[i].second);
         printf("\n");
-    }
+            showq(clusterInicial);
+            for (int i = 0; i < m.size(); i ++) {
+            for (int j = 0; j < m[0].size(); j++) {
+                if ( encontraPosicao(clusterInicial, make_pair(i,j)) ) {
+                    printf("x");
+                } else {
+                    printf("0");
+                }
+            }
+            printf("\n");
+        }
     
     */
+
+    sort(controle.begin(), controle.end(), [](auto &left, auto &right) {
+        return left.second < right.second;
+    });
+
+    melhorCor = controle.back().first;
 
     return melhorCor;
 }
 
-deque<char> resolveFlood (matriz m) {
+static void teste (matriz m, int cores) {
+
+    matriz temp_m = m;
+    for (int escopos = 0; escopos < MAX_ESCOPOS; escopos++) {
+
+        for (int cor = 1; cor <= cores; cor++) {
+            floodFill(&temp_m, cor);
+
+            char jogada = buscaMelhorJogada(temp_m, cores);
+
+
+        }
+    }
+
+}
+
+deque<char> resolveFlood (matriz m, int cores) {
 
     deque<char> resolucao;
-    deque<coordenada> clusterInicial;
-    int maiorCluster = 0;
+    /*
+        deque<coordenada> clusterInicial;
+        int maiorCluster = 0;
+    */
 
-    printf("melhor jogada: %d\n", buscaMelhorJogada(m, 0, make_pair(0,0), &clusterInicial, &maiorCluster));
+    printf("melhor jogada: %d\n", buscaMelhorJogada(m, cores));
 
     return resolucao;
 

@@ -1,4 +1,5 @@
 #include "floodlib.h"
+#include <algorithm>
 
 #define MAX_ESCOPOS 3
 
@@ -18,6 +19,6 @@ int checaCoresBorda(deque<pair<char, coordenada>> cores);
 
 deque<coordenada> descobreCluster (matriz *m, char cor, coordenada inicio);
 
-deque<char> resolveFlood (matriz m);
+deque<char> resolveFlood (matriz m, int cores);
 
-char buscaMelhorJogada (matriz m, int escopos, coordenada coordAtual, deque<coordenada> *clusterInicial, int *maiorCluster);
+char buscaMelhorJogada (matriz m, int cores);
