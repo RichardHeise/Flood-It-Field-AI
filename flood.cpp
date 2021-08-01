@@ -15,7 +15,7 @@ int main() {
     //EscreveMatriz(mapa, lin, col);
     deque<char> resolveu;
 
-    resolveu = resolveFlood(mapa, cores);
+    buscaMelhorJogada(mapa, cores);
 
     //printf("tamanho: %lu \n", resolveu.size());
 

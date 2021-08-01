@@ -2,6 +2,10 @@
 #include <algorithm>
 
 #define MAX_ESCOPOS 3
+#define BAIXO 0
+#define DIREITA 1
+#define ESQUERDA 2
+#define CIMA 3
 
 using namespace std;
 
