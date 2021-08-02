@@ -144,7 +144,7 @@ int checaCoresBorda(deque<pair<char, coordenada>> cores) {
     return 1;
 }
 
-static char descobreMaisLonge(matriz m, coordenada c, deque<coordenada> cluster) {
+static pair<char, int> descobreDistancia(matriz m, coordenada c, deque<coordenada> cluster) {
 
     deque<pair<int, int>> contaCores;
 
@@ -183,25 +183,27 @@ static char descobreMaisLonge(matriz m, coordenada c, deque<coordenada> cluster)
     sort(contaCores.begin(), contaCores.end(), [](auto &left, auto &right) {
         return left.second > right.second;
     });
-    
-     for (int j = 0; j < contaCores.size(); j++) {
+
+    /*    
+    for (int j = 0; j < contaCores.size(); j++) {
         printf("%d %d\n", contaCores[j].first, contaCores[j].second);
     }
     printf("\n");
+    */
 
     if ( contaCores.front().first == BAIXO ) {
-        return m[c.first + 1][c.second];
+        return make_pair(m[c.first + 1][c.second], contaCores.front().second);
     } else if (contaCores.front().first == DIREITA) {
-        return m[c.first][c.second + 1];
+        return make_pair(m[c.first][c.second + 1], contaCores.front().second);
     } else if (contaCores.front().first == CIMA) { 
-        return m[c.first - 1][c.second];
+        return make_pair(m[c.first - 1][c.second], contaCores.front().second);
     } else {
-        return m[c.first][c.second - 1];
+        return make_pair(m[c.first][c.second - 1], contaCores.front().second);
     }
 
 }
 
-char buscaMelhorJogada (matriz m, int cores) {
+char buscaMelhorJogada (matriz m, int cores, char jogadaAnterior) {
 
     /*
         deque<pair<char, int>> controle;
@@ -273,24 +275,32 @@ char buscaMelhorJogada (matriz m, int cores) {
         });
 
         melhorCor = controle.back().first;
-    */
+    
 
-    char melhorCor;
+    deque<pair<char, int>> controle;
     deque<coordenada> clusterAtual = descobreCluster(&m, m[0][0], make_pair(0,0));
+    char melhorCor;
 
-    showq(clusterAtual);
+    //showq(clusterAtual);
 
     for (int i = 0; i < clusterAtual.size(); i++) {
-        melhorCor = descobreMaisLonge(m, clusterAtual[i], clusterAtual);
+        cor_dist.push_back(descobreDistancia(m, clusterAtual[i], clusterAtual));
     }
 
-    printf("melhor cor: %d\n", melhorCor);
-
+    sort(cor_dist.begin(), cor_dist.end(), [](auto &left, auto &right) {
+        return left.second > right.second;
+    });
+    
+        for (int j = 0; j < cor_dist.size(); j++) {
+            printf("cores_dist: %d %d\n", cor_dist[j].first, cor_dist[j].second);
+        }
+        printf("\n");
     return melhorCor;
+    */
 }
 
 static void preveJogada (matriz *m, int cores) {
-
+    /*
     deque<pair<char, int>> controle;
 
     matriz temp_m;
@@ -326,18 +336,93 @@ static void preveJogada (matriz *m, int cores) {
         floodFill(m, melhorCor);
         
     }
-
+    */
 }
 
-deque<char> resolveFlood (matriz m, int cores) {
+static float h(matriz m, int cores) {
 
-    deque<char> resolucao;
-    /*
-        deque<coordenada> clusterInicial;
-        int maiorCluster = 0;
-    */
+    int regioes = 0;
+    for (int i = 0; i < m.size(); i++) {
+        for (int j = 0; j < m[0].size(); j++) {
 
-    preveJogada(&m, cores);
+            char cor = m[i][j];
+            if (cor != 0) {
+                deque<coordenada> lista;
+
+                lista.push_back(make_pair(i,j));
+                char corAnt = m[i][j];
+
+                while (!lista.empty()) {
+                    coordenada aux = lista.back();
+                    lista.pop_back();
+
+                    if ( flood(&m, aux.first, aux.second, corAnt, 0) ) {
+
+                        lista.push_back(make_pair(aux.first+1, aux.second));
+                        lista.push_back(make_pair(aux.first-1, aux.second));
+                        lista.push_back(make_pair(aux.first, aux.second+1));
+                        lista.push_back(make_pair(aux.first, aux.second-1));
+                        
+                    }
+                }
+
+                regioes++;
+            }
+        }
+    }
+
+    return (float) regioes / (float) cores;
+}
+
+static vector<char> resolve (matriz m, int cores) {
+
+    t_nodo nodoAtual;
+    nodoAtual.jogadas;
+    nodoAtual.jogo = m;
+    nodoAtual.heuristica = h(m, cores);
+    deque<pair<char, float>> controle;
+    deque<char> empatados;
+
+    while ( !resolveu(nodoAtual.jogo) ) {
+        int corAtual = nodoAtual.jogo[0][0];
+        controle.clear();
+        empatados.clear();
+
+        for (int cor = 1; cor <= cores; cor++) {
+            if (cor != corAtual) {
+                float heuristicaAtual;
+
+                matriz temp_m = nodoAtual.jogo;
+                floodFill(&temp_m, cor, make_pair(0,0));
+                 
+                heuristicaAtual = h(temp_m, cores);
+                
+                controle.push_back(make_pair(cor, heuristicaAtual));
+            }
+        }
+
+        sort(controle.begin(), controle.end(), [](auto &left, auto &right) {
+            return left.second < right.second;
+        });
+
+        floodFill(&nodoAtual.jogo, controle.front().first, make_pair(0,0));
+        nodoAtual.jogadas.push_back(controle.front().first);
+    }
+    
+
+    return nodoAtual.jogadas;
+}
+
+vector<char> resolveFlood (matriz *m, int cores) {
+
+    vector<char> resolucao;
+
+    resolucao = resolve((*m), cores);
+
+    printf("tamanho: %lu\n", resolucao.size());
+    for (int i = 0; i < resolucao.size(); i++)
+        printf("%d ", resolucao[i]);
+    printf("\n");
 
     return resolucao;
 

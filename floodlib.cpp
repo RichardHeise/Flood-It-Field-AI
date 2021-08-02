@@ -13,11 +13,11 @@ static void showq(deque<coordenada> gq)
 }
   
 
-void floodFill (matriz *m, char novaCor)  {
+void floodFill (matriz *m, char novaCor, coordenada inicio)  {
     
     deque<coordenada> lista;
 
-    lista.push_back(make_pair(0, 0));
+    lista.push_back(inicio);
     char corAnt = (*m)[0][0];
 
     while (!lista.empty()) {

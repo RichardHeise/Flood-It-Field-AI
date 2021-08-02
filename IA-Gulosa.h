@@ -1,5 +1,6 @@
 #include "floodlib.h"
 #include <algorithm>
+using namespace std;
 
 #define MAX_ESCOPOS 3
 #define BAIXO 0
@@ -7,7 +8,11 @@
 #define ESQUERDA 2
 #define CIMA 3
 
-using namespace std;
+typedef struct s_nodo {
+    matriz jogo;
+    vector<char> jogadas;
+    float heuristica;
+} t_nodo;
 
 void showq(deque<coordenada> gq);
 
@@ -23,6 +28,6 @@ int checaCoresBorda(deque<pair<char, coordenada>> cores);
 
 deque<coordenada> descobreCluster (matriz *m, char cor, coordenada inicio);
 
-deque<char> resolveFlood (matriz m, int cores);
+vector<char> resolveFlood (matriz *m, int cores);
 
 char buscaMelhorJogada (matriz m, int cores);

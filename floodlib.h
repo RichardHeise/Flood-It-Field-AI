@@ -6,7 +6,7 @@ using namespace std;
 
 typedef pair<int, int> coordenada;
 
-void floodFill (matriz *m, char novaCor);
+void floodFill (matriz *m, char novaCor, coordenada inicio);
 
 int flood (matriz *m, int posX, int posY, char corAnt, char novaCor);
 
