@@ -12,7 +12,7 @@ int main() {
 
     //mapa = geraMatriz(lin, col, cores);
 
-    //EscreveMatriz(mapa, lin, col);
+    //EscreveMatriz(mapa);
     resolveFlood(&mapa, cores);
 
     //printf("tamanho: %lu \n", resolveu.size());
@@ -25,11 +25,12 @@ int main() {
     printf("\n");
     */
     /*
+    int cor;
     do {
         cin >> cor;
 
-        floodFill(&mapa, (char)cor);
-        EscreveMatriz(mapa, lin, col);
+        floodFill(&mapa, (char)cor, make_pair(0,0));
+        EscreveMatriz(mapa);
     }
     while ( !resolveu(mapa) );
     */
