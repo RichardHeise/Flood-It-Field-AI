@@ -1,4 +1,4 @@
-#include "IA-Gulosa.h"
+#include "IAra.h"
 
 int main() {
 

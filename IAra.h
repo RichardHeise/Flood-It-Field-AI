@@ -29,5 +29,3 @@ int checaCoresBorda(deque<pair<char, coordenada>> cores);
 deque<coordenada> descobreCluster (matriz *m, char cor, coordenada inicio);
 
 vector<char> resolveFlood (matriz *m, int cores);
-
-char buscaMelhorJogada (matriz m, int cores);

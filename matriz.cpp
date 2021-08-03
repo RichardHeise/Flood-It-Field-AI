@@ -8,9 +8,9 @@ void leMatriz (matriz *m, int l, int c) {
     }
 }
 
-void EscreveMatriz (matriz m, int l, int c) {
-    for (int i = 0; i < l; i++) {
-        for (int j = 0; j < c; j++)
+void EscreveMatriz (matriz m) {
+    for (int i = 0; i < m.size(); i++) {
+        for (int j = 0; j < m[0].size(); j++)
             printf("%d ", m[i][j]);
         printf("\n");
     }
