@@ -2,7 +2,7 @@
 #include <algorithm>
 using namespace std;
 
-#define MAX_ESCOPOS 3
+#define MAX_ESCOPOS 2
 #define BAIXO 0
 #define DIREITA 1
 #define ESQUERDA 2
@@ -10,7 +10,6 @@ using namespace std;
 
 typedef struct s_nodo {
     matriz jogo;
-    vector<char> jogadas;
     float heuristica;
 } t_nodo;
 
@@ -31,3 +30,5 @@ deque<coordenada> descobreCluster (matriz *m, char cor, coordenada inicio);
 vector<char> resolveFlood (matriz *m, int cores);
 
 char buscaMelhorJogada (matriz m, int cores);
+
+char preveJogada (matriz m, int cores, int escopos);

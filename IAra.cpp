@@ -61,34 +61,38 @@ static float h(matriz m, int cores) {
     return (((float) regioes / (float) cores) + (float)maiorDist);
 }
 
-static char preveJogada (matriz m, int cores) {
-    
+char preveJogada (matriz m, int cores, int escopos) {
+    /*
     deque<pair<char, float>> controle;
     matriz temp_m;
 
-    if ( resolveu(m) ) {
-        return 0;
-    }
+    for (int cor = 1; cor <= cores; cor++) {
+        temp_m = m;
+        if (cor != temp_m[0][0] ) {
+            floodFill(&temp_m, cor, make_pair(0,0));
 
-    for (int escopos = 0; escopos < MAX_ESCOPOS; escopos++) {
+            if ( resolveu(temp_m) ) {
+                return cor;
+            }
 
-        for (int cor = 1; cor <= cores; cor++) {
-            temp_m = m;
+            if (  escopos < MAX_ESCOPOS  ) {
+                return preveJogada(temp_m, cores, escopos + 1 );
 
-            if (cor != temp_m[0][0]) {
-                floodFill(&temp_m, cor, make_pair(0,0));
+            } else {
+                controle.push_back(buscaMelhorJogada(temp_m, cores));
 
-                controle.push_back(h(temp_m, cores));
             }
         }
+    }
 
-    } 
-
+    for (int i = 0; i < controle.size(); i++)
+        printf("cor: %d, heuristca: %f\n", controle[i].first, controle[i].second);
     sort(controle.begin(), controle.end(), [](auto &left, auto &right) {
         return left.second < right.second;
     });
 
     return controle.front().first;
+    */
 }   
 
 char buscaMelhorJogada (matriz m, int cores) {
@@ -110,6 +114,8 @@ char buscaMelhorJogada (matriz m, int cores) {
         }
     }
 
+    for (int i = 0; i < controle.size(); i++)
+        printf("cor: %d, heuristca: %f\n", controle[i].first, controle[i].second);
     sort(controle.begin(), controle.end(), [](auto &left, auto &right) {
         return left.second < right.second;
     });
@@ -123,13 +129,13 @@ static vector<char> resolve (matriz m, int cores) {
 
     int i = 0;
     while ( !resolveu(m) ) {
-        //printf("jogada %d\n", i);
-        char melhorJogada = preveJogada(m, cores);
-        /*
+        printf("jogada %d\n", i);
+        char melhorJogada = buscaMelhorJogada(m, cores);
+        
             printf("melhor jogada: %d\n", melhorJogada);
             EscreveMatriz(m);
             printf("\n");
-        */
+        
         floodFill(&m, melhorJogada, make_pair(0,0));
         jogadas.push_back(melhorJogada);
         //if ( i == 1) exit(0);
