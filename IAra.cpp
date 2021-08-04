@@ -58,41 +58,53 @@ static float h(matriz m, int cores) {
             }
         }
     }
+
     return (((float) regioes / (float) cores) + (float)maiorDist);
 }
 
-char preveJogada (matriz m, int cores, int escopos) {
-    /*
+float preveJogada (matriz m, int cores) {
+
     deque<pair<char, float>> controle;
-    matriz temp_m;
+    matriz temp_m = m;
 
-    for (int cor = 1; cor <= cores; cor++) {
-        temp_m = m;
-        if (cor != temp_m[0][0] ) {
-            floodFill(&temp_m, cor, make_pair(0,0));
+    if ( resolveu(temp_m) ) return 0;
 
-            if ( resolveu(temp_m) ) {
-                return cor;
-            }
+    for (int escopos = 0; escopos < MAX_ESCOPOS; escopos++) {
 
-            if (  escopos < MAX_ESCOPOS  ) {
-                return preveJogada(temp_m, cores, escopos + 1 );
+        if ( resolveu(temp_m) ) break;
+        controle.clear();
 
-            } else {
-                controle.push_back(buscaMelhorJogada(temp_m, cores));
+        for (int cor = 1; cor <= cores; cor++) {
+            if (cor != temp_m[0][0]) {
 
+                matriz aux = temp_m;
+                if ( resolveu(temp_m) ) break;
+
+                floodFill(&aux, cor, make_pair(0,0));
+
+                controle.push_back(make_pair(cor, (float)escopos + h(aux, cores)));
             }
         }
+
+        sort(controle.begin(), controle.end(), [](auto &left, auto &right) {
+            return left.second < right.second;
+        });
+        /*
+        for (int i = 0; i < controle.size(); i++)
+            printf("cor: %d, heuristca: %f\n", controle[i].first, controle[i].second);
+
+        printf("menor: %d\n", controle.front().first);
+        */
+        floodFill(&temp_m, controle.front().first, make_pair(0,0));
     }
 
-    for (int i = 0; i < controle.size(); i++)
-        printf("cor: %d, heuristca: %f\n", controle[i].first, controle[i].second);
     sort(controle.begin(), controle.end(), [](auto &left, auto &right) {
         return left.second < right.second;
     });
 
-    return controle.front().first;
-    */
+    //printf("mano voltou isso: %d\n", controle.front().first);
+
+    return controle.front().second;
 }   
 
 char buscaMelhorJogada (matriz m, int cores) {
@@ -108,18 +120,21 @@ char buscaMelhorJogada (matriz m, int cores) {
             matriz temp_m = m;
             floodFill(&temp_m, cor, make_pair(0,0));
 
-            heuristica = h(temp_m, cores);
+            heuristica = preveJogada(temp_m, cores);
             
             controle.push_back(make_pair(cor, heuristica));
         }
     }
 
-    for (int i = 0; i < controle.size(); i++)
-        printf("cor: %d, heuristca: %f\n", controle[i].first, controle[i].second);
+    
     sort(controle.begin(), controle.end(), [](auto &left, auto &right) {
         return left.second < right.second;
     });
 
+    /*
+    for (int i = 0; i < controle.size(); i++)
+        printf("cor: %d, heuristca: %f\n", controle[i].first, controle[i].second);
+    */
     return controle.front().first;        
 }
 
@@ -129,16 +144,16 @@ static vector<char> resolve (matriz m, int cores) {
 
     int i = 0;
     while ( !resolveu(m) ) {
-        printf("jogada %d\n", i);
+        //printf("jogada %d\n", i);
         char melhorJogada = buscaMelhorJogada(m, cores);
-        
+        /*
             printf("melhor jogada: %d\n", melhorJogada);
             EscreveMatriz(m);
             printf("\n");
-        
+        */
         floodFill(&m, melhorJogada, make_pair(0,0));
         jogadas.push_back(melhorJogada);
-        //if ( i == 1) exit(0);
+        //if ( i == 2) exit(0);
         i++;
     }
     
@@ -152,7 +167,7 @@ vector<char> resolveFlood (matriz *m, int cores) {
 
     resolucao = resolve((*m), cores);
 
-    printf("tamanho: %lu\n", resolucao.size());
+    printf("%lu\n", resolucao.size());
     for (int i = 0; i < resolucao.size(); i++)
         printf("%d ", resolucao[i]);
     printf("\n");
@@ -160,4 +175,3 @@ vector<char> resolveFlood (matriz *m, int cores) {
     return resolucao;
 
 }
-
