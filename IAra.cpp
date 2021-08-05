@@ -1,6 +1,6 @@
 #include "IAra.h"
 
-void showq(deque<coordenada> gq) {
+static void showq(deque<coordenada> gq) {
     deque<coordenada> g = gq;
     while (!g.empty()) {
         printf("%d %d \n", g[0].first, g[0].second);
@@ -9,7 +9,45 @@ void showq(deque<coordenada> gq) {
     cout << '\n';
 }
 
-static float h(matriz m, int cores) {
+vector<char> possiveisCores (matriz m) {
+    
+    vector<char> bordas;
+    int controle = 0;
+    floodFill(&m, 0, make_pair(0,0));
+
+    /*
+        EscreveMatriz(m);
+        printf("\n");
+    */
+    for (int i = 0; i < m.size(); i++) {
+        for (int j = 0; j < m[0].size(); j++) {
+            if (m[i][j] != m[0][0]) {
+                if (j-1 >= 0 && m[i][j-1] == 0) {
+                    bordas.push_back(m[i][j]); 
+                    controle = 0;
+                } else if (i-1 >= 0 && m[i-1][j] == 0) {
+                    bordas.push_back(m[i][j]);
+                    controle = 0;
+                }
+                controle++;
+            } 
+        }
+        if (controle == m[0].size() ) break;
+    }
+
+    sort(bordas.begin(), bordas.end(), [](auto &left, auto &right) {
+        return left < right;
+    });
+
+    vector<char>::iterator it;
+    it = unique(bordas.begin(), bordas.begin() + bordas.size());
+
+    bordas.resize( distance(bordas.begin(), it) );
+
+    return bordas;
+}
+
+float h(matriz m, int cores) {
 
     int regioes = 0;
     matriz distancias = m;
@@ -75,14 +113,15 @@ float preveJogada (matriz m, int cores) {
         if ( resolveu(temp_m) ) break;
         controle.clear();
 
-        for (int cor = 1; cor <= cores; cor++) {
-            if (cor != temp_m[0][0]) {
+        vector<char> coresBorda = possiveisCores(temp_m); 
+        for (int i = 0; i < coresBorda.size(); i++) {
+            if (coresBorda[i] != temp_m[0][0]) {
 
                 matriz aux = temp_m;
                 if ( resolveu(temp_m) ) break;
-                floodFill(&aux, cor, make_pair(0,0));
+                floodFill(&aux, coresBorda[i], make_pair(0,0));
 
-                controle.push_back(make_pair(cor, (float)escopos + h(aux, cores)));
+                controle.push_back(make_pair(coresBorda[i], (float)escopos + h(aux, cores)));
             }
         }
 
@@ -110,19 +149,24 @@ float preveJogada (matriz m, int cores) {
 char buscaMelhorJogada (matriz m, int cores) {
 
     deque<pair<char, float>> controle;
+    vector<char> coresBorda = possiveisCores(m);
 
     int corAtual = m[0][0];
-    
-    for (int cor = 1; cor <= cores; cor++) {
-        if (cor != corAtual) {
+    /*
+    for (int i = 0; i < coresBorda.size(); i++)
+        printf("cores: %d\n", coresBorda[i]);
+    */
+    for (int i = 0; i < coresBorda.size(); i++) {
+        if (coresBorda[i] != corAtual) {
+            
             float heuristica;
 
             matriz temp_m = m;
-            floodFill(&temp_m, cor, make_pair(0,0));
+            floodFill(&temp_m, coresBorda[i], make_pair(0,0));
 
             heuristica = preveJogada(temp_m, cores);
             
-            controle.push_back(make_pair(cor, heuristica));
+            controle.push_back(make_pair(coresBorda[i], heuristica));
         }
     }
 
@@ -138,22 +182,22 @@ char buscaMelhorJogada (matriz m, int cores) {
     return controle.front().first;        
 }
 
-static vector<char> resolve (matriz m, int cores) {
+vector<char> resolve (matriz m, int cores) {
 
     vector<char> jogadas;
 
     int i = 0;
     while ( !resolveu(m) ) {
-        //printf("jogada %d\n", i);
+        //printf("jogada %d\n", i+1);
         char melhorJogada = buscaMelhorJogada(m, cores);
+        floodFill(&m, melhorJogada, make_pair(0,0));
         /*
             printf("melhor jogada: %d\n", melhorJogada);
             EscreveMatriz(m);
             printf("\n");
         */
-        floodFill(&m, melhorJogada, make_pair(0,0));
         jogadas.push_back(melhorJogada);
-        //if ( i == 0) exit(0);
+        //if ( i == 5) exit(0);
         i++;
     }
     

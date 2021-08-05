@@ -2,11 +2,13 @@
 #include <algorithm>
 using namespace std;
 
-#define MAX_ESCOPOS 3
+#define MAX_ESCOPOS 1
 
-void showq(deque<coordenada> gq);
+float h(matriz m, int cores);
 
 vector<char> resolveFlood (matriz *m, int cores);
+
+vector<char> resolve (matriz m, int cores);
 
 char buscaMelhorJogada (matriz m, int cores);
 
