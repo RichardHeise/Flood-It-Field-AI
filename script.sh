@@ -1,7 +1,10 @@
-for i in {1..5}; do
-    ./fabiano/geramapa 100 100 20  > text.txt
-    time ./flood < text.txt > solucao_$i.sh 2> tempo_$i.txt
-    echo " " > tempo_$i.txt 
-    echo " " > solucao_$i.txt 
+for k in {4..20}; do
+	echo "com "$k"cores: "
+	echo " "
+	for i in {1..5}; do
+		echo "rodada"$i
+    ./fabiano/geramapa 100 100 $k  > text.txt
+    time ./flood < text.txt 
+	done 
 done
 
