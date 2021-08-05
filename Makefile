@@ -4,7 +4,7 @@
 # @author Richard Fernando Heise Ferreira (GRR20191053)
 
 
-CFLAGS  = -Wall 
+CPPFLAGS  = -O3
 CC = g++
 
 #-----------------------------------------------------------------------------#

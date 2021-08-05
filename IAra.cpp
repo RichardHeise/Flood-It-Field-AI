@@ -59,6 +59,7 @@ static float h(matriz m, int cores) {
         }
     }
 
+
     return (((float) regioes / (float) cores) + (float)maiorDist);
 }
 
@@ -79,7 +80,6 @@ float preveJogada (matriz m, int cores) {
 
                 matriz aux = temp_m;
                 if ( resolveu(temp_m) ) break;
-
                 floodFill(&aux, cor, make_pair(0,0));
 
                 controle.push_back(make_pair(cor, (float)escopos + h(aux, cores)));
@@ -153,7 +153,7 @@ static vector<char> resolve (matriz m, int cores) {
         */
         floodFill(&m, melhorJogada, make_pair(0,0));
         jogadas.push_back(melhorJogada);
-        //if ( i == 2) exit(0);
+        //if ( i == 0) exit(0);
         i++;
     }
     
