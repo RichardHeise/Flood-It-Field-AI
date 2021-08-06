@@ -1,21 +1,10 @@
 #include "floodlib.h"
 using namespace std;
-
-static void showq(deque<coordenada> gq)
-{
-    deque<coordenada> g = gq;
-    while (!g.empty()) {
-        cout << '\t' << g.front().first;
-        cout << '\t' << g.front().second;
-        g.pop_back();
-    }
-    cout << '\n';
-}
   
 
 void floodFill (matriz *m, char novaCor, coordenada inicio)  {
     
-    deque<coordenada> lista;
+    vector<coordenada> lista;
 
     lista.push_back(inicio);
     char corAnt = (*m)[0][0];
@@ -24,7 +13,7 @@ void floodFill (matriz *m, char novaCor, coordenada inicio)  {
         coordenada aux = lista.back();
         lista.pop_back();
 
-        if ( flood(&(*m), aux.first, aux.second, corAnt, novaCor) ) {
+        if ( flood(&(*m), aux, corAnt, novaCor) ) {
 
             lista.push_back(make_pair(aux.first+1, aux.second));
             lista.push_back(make_pair(aux.first-1, aux.second));
@@ -35,12 +24,12 @@ void floodFill (matriz *m, char novaCor, coordenada inicio)  {
     }
 }   
 
-int flood (matriz *m, int posX, int posY, char corAnt, char novaCor) {
-    if (posX < 0 || posX >= (*m).size() || posY < 0 || posY >= (*m)[0].size()
-        || (*m)[posX][posY] != corAnt || (*m)[posX][posY] == novaCor)
+int flood (matriz *m, coordenada c, char corAnt, char novaCor) {
+    if (c.first < 0 || c.first >= (*m).size() || c.second < 0 || c.second >= (*m)[0].size()
+        || (*m)[c.first][c.second] != corAnt || (*m)[c.first][c.second] == novaCor)
         return 0;
 
-    (*m)[posX][posY] = novaCor;
+    (*m)[c.first][c.second] = novaCor;
     return 1;
 }
 
