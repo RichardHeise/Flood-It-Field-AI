@@ -1,5 +1,6 @@
 #include "floodlib.h"
 #include <algorithm>
+#include <cmath>
 using namespace std;
 
 #define MAX_ESCOPOS 3
@@ -10,4 +11,4 @@ void resolve (matriz m, int cores);
 
 char buscaMelhorJogada (matriz m, int cores);
 
-float preveJogada (matriz m, int cores, int escopos);
+float preveJogada (matriz m, int cores, int max_escopos);

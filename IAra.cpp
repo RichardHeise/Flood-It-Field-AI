@@ -99,14 +99,14 @@ float h(matriz m, int cores) {
     return (((float) regioes / (float) cores) + (float)maiorDist);
 }
 
-float preveJogada (matriz m, int cores) {
+float preveJogada (matriz m, int cores, int max_escopos) {
 
     vector<pair<char, float>> controle;
     matriz temp_m = m;
 
     if ( resolveu(temp_m) ) return 0;
 
-    for (int escopos = 0; escopos < MAX_ESCOPOS; escopos++) {
+    for (int escopos = 0; escopos < max_escopos; escopos++) {
 
         if ( resolveu(temp_m) ) break;
         controle.clear();
@@ -142,17 +142,35 @@ char buscaMelhorJogada (matriz m, int cores) {
     vector<pair<char, float>> controle;
     vector<char> coresBorda = possiveisCores(m);
 
-    for (char cor : coresBorda) {
-        if (cor != m[0][0]) {
-            
-            float heuristica;
+    int previsoes = (-4.796l*log(coresBorda.size()) + 14.715);
 
-            matriz temp_m = m;
-            floodFill(&temp_m, cor, make_pair(0,0));
+    if (previsoes) {
+        for (char cor : coresBorda) {
+            if (cor != m[0][0]) {
+                
+                float heuristica;
 
-            heuristica = preveJogada(temp_m, cores);
-            
-            controle.push_back(make_pair(cor, heuristica));
+                matriz temp_m = m;
+                floodFill(&temp_m, cor, make_pair(0,0));
+
+                heuristica = preveJogada(temp_m, cores, previsoes);
+                
+                controle.push_back(make_pair(cor, heuristica));
+            }
+        }        
+    } else {
+        for (char cor : coresBorda) {
+            if (cor != m[0][0]) {
+                
+                float heuristica;
+
+                matriz temp_m = m;
+                floodFill(&temp_m, cor, make_pair(0,0));
+
+                heuristica = h(temp_m, cores);
+                
+                controle.push_back(make_pair(cor, heuristica));
+            }
         }
     }
 
@@ -162,6 +180,7 @@ char buscaMelhorJogada (matriz m, int cores) {
 
     return controle.front().first;        
 }
+
 
 void resolve (matriz m, int cores) {
 
