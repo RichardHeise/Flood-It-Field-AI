@@ -1,11 +1,13 @@
 /**
- * @file  IAra.h
- * @brief Arquivo com os cabeçalhos das funções da inteligência artificial.
- * @date 27/02/2021
+ * @file  IAra.cpp
+ * @brief Arquivo com as implementações das funções da inteligência artificial.
+ * @date 15/08/2021
  * @author Richard Fernando Heise Ferreira (GRR20191053)
  **/
 
 #include "IAra.h"
+
+//=============================================================//
 
 vector<char> possiveisCores (matriz m) {
     
@@ -17,7 +19,7 @@ vector<char> possiveisCores (matriz m) {
     // Floodamos de 0s nosso cluster para não o considerarmos.
     floodFill(&m, 0, make_pair(0,0));
 
-    // Percorremos o cluster
+    // Percorremos o tabuleiro
     for (int i = 0; i < m.size(); i++) {
         for (int j = 0; j < m[0].size(); j++) {
 
@@ -59,14 +61,17 @@ vector<char> possiveisCores (matriz m) {
     return bordas;
 }
 
+//=============================================================//
+
 float h(matriz m, int cores) {
 
 
     int regioes = 0;
-    // matriz de distâncias.
+    
+    // Matriz de distâncias.
     matriz distancias = m;
 
-    //  Floodamos nosso cluster com 0s para não o considerarmos.
+    // Floodamos nosso cluster com 0s para não o considerarmos.
     floodFill(&distancias, 0, make_pair(0,0));
 
     int maiorDist = 0;
@@ -97,7 +102,7 @@ float h(matriz m, int cores) {
                 if (distancias[i][j] > maiorDist)
                     maiorDist = distancias[i][j];
             }
-            //<=======================================================================================================
+            //<=========================================================================================================
 
             //==========================================================================================================
             //======================================= HEURÍSTICA 2 (SECUNDÁRIA) ========================================
@@ -137,6 +142,8 @@ float h(matriz m, int cores) {
     return (((float) regioes / (float) cores) + (float)maiorDist);
 }
 
+//=============================================================//
+
 float preveJogada (matriz m, int cores, int maxEscopos) {
 
     // Vetor que relaciona cada cor a uma heurística.
@@ -169,7 +176,8 @@ float preveJogada (matriz m, int cores, int maxEscopos) {
                 floodFill(&aux, cor, make_pair(0,0));
 
                 // Mais de uma previsão pode estar correta, porém, queremos a que está correta
-                // antes das demais, portanto, somamos à heurística em qual profundidade encontramos a solução.
+                // antes das demais, portanto, somamos escopos e heurística para determinar 
+                // em qual profundidade encontramos a solução.
                 controle.push_back(make_pair(cor, (float)escopos + h(aux, cores)));
             }
         }
@@ -183,13 +191,15 @@ float preveJogada (matriz m, int cores, int maxEscopos) {
         floodFill(&temp_m, controle.front().first, make_pair(0,0));
     }
     
-    //Retornamos a heuristica da melhor jogada;
+    // Retornamos a heuristica da melhor jogada;
     return controle.front().second;
 }   
 
+//=============================================================//
+
 char buscaMelhorJogada (matriz m, int cores) {
 
-    // vetor de pares que relaciona uma cor a uma heurística.
+    // Vetor de pares que relaciona uma cor a uma heurística.
     vector<pair<char, float>> controle;
 
     // Cores adjacentes ao cluster.
@@ -201,7 +211,7 @@ char buscaMelhorJogada (matriz m, int cores) {
     /* seria impossível prever jogadas no futuro dentro de 2 minutos.
     /* Já com 19, poderia prever uma jogada no futuro. Com 14, duas.
     /* Portanto, tendo três pontos {(20,0); (19,1); (14,2)} gerei um gráfico
-    /* queresultou nessa função. Ela só vale 0 para 20, que é quando não prevemos,
+    /* que resultou nessa função. Ela só vale 0 para 20, que é quando não prevemos,
     /* e sim usamos a heurística diretamente. 
     /* **Portanto, prevemos o número de jogadas que devemos prever para cada jogada possível.**
     */
@@ -217,6 +227,7 @@ char buscaMelhorJogada (matriz m, int cores) {
                 float heuristica;
 
                 matriz temp_m = m;
+                
                 // Floodamos uma matriz temporária com a cor.
                 floodFill(&temp_m, cor, make_pair(0,0));
 
@@ -254,6 +265,8 @@ char buscaMelhorJogada (matriz m, int cores) {
     return controle.front().first;        
 }
 
+//=============================================================//
+
 void resolve (matriz m, int cores) {
 
     vector<char> jogadas;
@@ -274,3 +287,5 @@ void resolve (matriz m, int cores) {
     printf("\n");
 
 }
+
+//=============================================================//

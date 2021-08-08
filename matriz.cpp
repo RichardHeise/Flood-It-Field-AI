@@ -1,12 +1,29 @@
+/**
+ * @file  matriz.cpp
+ * @brief Arquivo com as implementações das funções de matrizes.
+ * @date 15/08/2021
+ * @author Richard Fernando Heise Ferreira (GRR20191053)
+ **/
+
 #include "matriz.h"
 using namespace std;
 
+//=============================================================//
+
 void leMatriz (matriz *m, int l, int c) {
     for (int i = 0; i < l; i++) {
-        for (int j = 0; j < c; j++)
-            scanf(" %d", &(*m)[i][j]);
+        for (int j = 0; j < c; j++) {
+            int aux;
+             if (!scanf(" %d", &aux)) {
+                perror("Não foi possível ler a matriz, abortando.\n");
+                exit(SAIDA_LEITURA);
+            }
+            (*m)[i][j] = aux;
+        }
     }
 }
+
+//=============================================================//
 
 void EscreveMatriz (matriz m) {
     for (int i = 0; i < m.size(); i++) {
@@ -15,6 +32,8 @@ void EscreveMatriz (matriz m) {
         printf("\n");
     }
 }
+
+//=============================================================//
 
 matriz alocaMatriz (int l, int c) {
     matriz m(l);
@@ -25,10 +44,13 @@ matriz alocaMatriz (int l, int c) {
     return m;
 }
 
+//=============================================================//
+
 matriz geraMatriz (int l, int c, int cors) { 
 
     matriz m = alocaMatriz(l, c);
 
+    // A semente é o tempo do computador
     srand(time(NULL));
 
     for (int i = 0; i < l; i++) {
@@ -38,3 +60,4 @@ matriz geraMatriz (int l, int c, int cors) {
 
     return m;
 } 
+//=============================================================//
