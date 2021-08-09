@@ -9,7 +9,7 @@
 #define __IAra__
 #include "floodlib.h"  //funções do flood
 #include <algorithm>   // sort, unique
-#include <cmath>       // log (natural)
+#include <cmath>       // log (natural), floor
 
 using namespace std;
 

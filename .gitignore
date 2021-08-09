@@ -4,3 +4,5 @@ bin
 /fabiano
 /html
 /latex
+*.sh
+*.txt
