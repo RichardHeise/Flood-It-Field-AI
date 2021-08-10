@@ -31,8 +31,11 @@
   - Se considerarmos um tabuleiro da seguinte forma:
 
    1 2 2 1
+
    3 1 2 1
+
    2 1 1 1
+
    1 1 1 1
 
   Teremos quatro possíveis soluções: 
