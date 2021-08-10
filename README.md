@@ -1,5 +1,5 @@
 
-# Trabalho 1 para disciplina de Inteligência Artifical. 
+# Resolutor do jogo Flood Field (Inteligência Artifical)
 
 ## Descrição:
  - Este trabalho propõe-se a resolver tabuleiros do jogo Flood It (também conhecido como Flood Field ou Flood Fill) utilizando uma inteligência artifical programada em C++.
@@ -67,7 +67,7 @@
   - Basta usar o comando make, fazer ./flood < _linhas_ _colunas_ _cores_ _matriz do tabuleiro_.
 
 #### Autor
- - Feito com carinho, esforço e suor por Richard Fernando Heise Ferreira (rfhf19@inf.ufpr.br). Espero que goste :)
+ - Feito com carinho, esforço e suor por Richard Fernando Heise Ferreira (rfhf19@inf.ufpr.br) para a disciplina de Inteligência Artifical, ministrada durante o ERE de 2021 devido à pandemia. Espero que goste :)
 
 
 
