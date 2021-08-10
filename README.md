@@ -1,3 +1,4 @@
+
 # Trabalho 1 para disciplina de Inteligência Artifical. 
 
 ## Descrição:
@@ -30,17 +31,18 @@
   - Se considerarmos um tabuleiro da seguinte forma:
 
    1 2 2 1
-   
    3 1 2 1
-   
    2 1 1 1
-   
    1 1 1 1
 
   Teremos quatro possíveis soluções: 
+  
   1-> 2 1 3 2
+  
   2-> 2 1 2 3
+  
   3-> 3 2 1
+  
   4-> 3 1 2
 
   Perceba que as duas últimas resolvem o tabuleiro mais rapidamente do que as duas primeiras, ou seja, seria ideal se nosso código conseguisse atingí-la através da heurística, porém, infelizmente a heurística não resolverá esse tabuleiro de forma ideal, o único modo de fazer isso é olhando, para cada jogada possível, qual dela resultará na melhor composição do tabuleiro daqui a algumas jogadas. Para isso, a função preveJogada() foi criada.
@@ -54,12 +56,12 @@
 
   - SEMPRE tentamos prever para cada jogada quantas jogadas no futuro devemos olhar, para isso aquela equação de número de previsões existe. Mais detalhes nos comentários do código em IAra.cpp.
 
-## Consierações finais
+## Considerações finais
   - Use o comando make para compilar, make clean limpa os .o e make purge limpa todo executável e .o gerado.
   - Você pode, se desejar e eu recomendo, gerar documentação automática usando o comando doxygen. Ele gerará um relatório completo do código em html e latex.
 
 ## Para rodar
-  - Basta usar o comando make, fazer ./flood < ´linhas´ ´colunas´ ´cores´ ´matriz do tabuleiro´.
+  - Basta usar o comando make, fazer ./flood < _linhas_ _colunas_ _cores_ _matriz do tabuleiro_.
 
 #### Autor
  - Feito com carinho, esforço e suor por Richard Fernando Heise Ferreira (rfhf19@inf.ufpr.br). Espero que goste :)
