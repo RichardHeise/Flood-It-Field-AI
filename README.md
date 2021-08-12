@@ -14,6 +14,13 @@
  - Em floodlib.h você encontrará funções referentes à implementação do jogo flood field.
 
  - Para mais informações aqui recomendo rodar o comando doxygen, que gerará uma documentação automática do código.
+ ### Anatomia do código
+ - IAra.cpp possui as implementações da IA.
+ - matriz.cpp possui as implementações referentes a matrizes.
+ - floodlib.cpp possui as implementações referentes ao jogo em si.
+ - flood.cpp é somente nossa main.
+ - Makefile é o arquivo de configuração make, para compilar o código.
+ - README.md este arquivo.
 
 ## Fluxo
  - Em flood.cpp temos nossa main(), ela chamará a leitura das entradas, do tabuleiro e, por fim, chamará resolve() que resolverá o jogo.
@@ -54,7 +61,7 @@
   - Primeiro, recebemos um tabuleiro em que foi executada alguma jogada possível, em seguida, vemos quais são as possíveis jogadas para nosso tabuleiro, rodamos um loop para cada qual dessas e guardamos cada jogada associada a uma heurística em uma lista. Depois, escolhemos a melhor jogada dentre as possíveis e a aplicamos no tabuleiro para que possamos rodar todo esse passo mais uma vez (caso seja interessante). 
 
   - Sabemos quantas jogadas devemos prever no futuro de acordo com a equação _número de previsoes_ = -4.7961 * ln(_número de possíveis cores_) + 14.715. Essa equação foi descoberta através de testes empíricos, ela dá 0 para 20 possíveis cores, quando não prevemos nenhuma jogada e somente usamos a heurística a fim de manter o código dentro de nossa janela de dois minutos. 
-  #### O teste empírico
+   #### O teste empírico
    - O teste empírico foi realizado da seguinda forma: um script foi rodado gerando 5 tabuleiros aleatórios de tamanho 100 100 com k cores, a variável k foi sendo incrementada começando com 4 até 20, ou seja, gerei tabuleiros diferentes até 100 x 100 com 20 cores e conclui que com a previsão de uma única jogada no futuro seria impossível rodar em menos de 2 minutos, então, marcamaos o ponto (20,0) em um gráfico de previsões no futuro por cores possíveis. Esse teste me revelou que com uma previsão meu limite seria 19 cores e, finalmente, com duas previsões seria 14 cores. Coloquei nossos três pontos ( {(20,0);(19,1);(14,2)} ) em um gráfico e gerei uma curva que se aproximava de todos os pontos, essa curve é descrita pela equação supracitada de _número de previsoes_.
 
   - Ao final, retornamos uma heurística que será associada à jogada que chamou a função de previsão. Também somamos com a heurística qual profundidade estamos para que a jogada que resolve o tabuleiro antes tenha vantagem quando comparada com as demais.
