@@ -21,7 +21,7 @@
  - A função que busca a melhor jogada descobrirá, através de outra função, as possíveis jogadas. Em seguida é calculado se haverá previsão de jogadas e quantas deverão ser previstas para cada jogada (essa parte é crucial para o melhor desempenho do código e envolve uma expressão matemática obtida através de testes, mais detalhes no comentário no código em IAra.cpp), logo roda-se um laço para jogadas possíveis, testando-as e guardando a heurística relativa a cada jogada em uma lista que associa cor a uma heurística. Assim que temos todas nossas possíveis jogadas devidamente testadas, escolhemos a de menor score (detalhes da heurística) e a retornamos como sendo a melhor jogada.
 
 ## Heurística 
-  - Há duas heurística aqui: número de regiões do tabuleiro dividido pelo número de cores e distância de cada ponto do tabuleiro referente ao cluster principal. 
+  - Há duas heurística aqui: número de regiões do tabuleiro dividido pelo número de cores e distância de cada ponto do tabuleiro referente ao cluster principal. Uma região é um cluster de uma só cor, ou seja, em um tabuleiro 6 por 6, por exemplo, podem haver, no máximo, 6x6 regiões, sendo cada ponto de uma cor diferente de modo que elas nunca formam uma região maior que dois. 
   - A primeira heurística conta quantas regiões temos em um tabuleiro e divide esse valor pelo número de cores, dando-nos um valor real que estima quantas áreas faltam ser abertas para resolvermos o tabuleiro.
   - A segunda heurística, e essa sim é nosso "carro chefe", calcula a distância de cada ponto da matriz em relação ao nosso nodo principal, a melhor jogada é a que diminui a maior distância. 
 
@@ -53,7 +53,9 @@
   ### preveJogada() 
   - Primeiro, recebemos um tabuleiro em que foi executada alguma jogada possível, em seguida, vemos quais são as possíveis jogadas para nosso tabuleiro, rodamos um loop para cada qual dessas e guardamos cada jogada associada a uma heurística em uma lista. Depois, escolhemos a melhor jogada dentre as possíveis e a aplicamos no tabuleiro para que possamos rodar todo esse passo mais uma vez (caso seja interessante). 
 
-  - Sabemos quantas jogadas devemos prever no futuro de acordo com a equação número_de_previsoes = -4.7961 * ln(número_de_possíveis_cores) + 14.715. Essa equação foi descoberta através de testes empíricos, ela dá 0 para 20 possíveis cores, quando não prevemos nenhuma jogada e somente usamos a heurística a fim de manter o código dentro de nossa janela de dois minutos. 
+  - Sabemos quantas jogadas devemos prever no futuro de acordo com a equação _número de previsoes_ = -4.7961 * ln(_número de possíveis cores_) + 14.715. Essa equação foi descoberta através de testes empíricos, ela dá 0 para 20 possíveis cores, quando não prevemos nenhuma jogada e somente usamos a heurística a fim de manter o código dentro de nossa janela de dois minutos. 
+  #### O teste empírico
+    - O teste empírico foi realizado da seguinda forma: um script foi rodado gerando 5 tabuleiros aleatórios de tamanho 100 100 com k cores, a variável k foi sendo incrementada começando com 4 até 20, ou seja, gerei tabuleiros diferentes até 100 x 100 com 20 cores e conclui que com a previsão de uma única jogada no futuro seria impossível rodar em menos de 2 minutos, então, marcamaos o ponto (20,0) em um gráfico de previsões no futuro por cores possíveis. Esse teste me revelou que com uma previsão meu limite seria 19 cores e, finalmente, com duas previsões seria 14 cores. Coloquei nossos três pontos ( {(20,0);(19,1);(14,2)} ) em um gráfico e gerei uma curva que se aproximava de todos os pontos, essa curve é descrita pela equação supracitada de _número de previsoes_.
 
   - Ao final, retornamos uma heurística que será associada à jogada que chamou a função de previsão. Também somamos com a heurística qual profundidade estamos para que a jogada que resolve o tabuleiro antes tenha vantagem quando comparada com as demais.
 
