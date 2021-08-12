@@ -1,6 +1,9 @@
 
 # Resolutor do jogo Flood Field (Inteligência Artifical)
 
+## Aviso:
+- Recomendo ler esse README.md usando uma ferramenta de leitura de MarkDown (https://stackedit.io/app#, por exemplo). Se desejar, também pode ler diretamente de meu github em https://github.com/RichardHeise/Flood-It-Field-AI, que estará público após o dia 15/08/2021 para evitar possíveis problemas com plágio. Boa leitura.
+
 ## Descrição:
  - Este trabalho propõe-se a resolver tabuleiros do jogo Flood It (também conhecido como Flood Field ou Flood Fill) utilizando uma inteligência artifical programada em C++.
 
