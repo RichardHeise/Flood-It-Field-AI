@@ -32,7 +32,7 @@
   - A primeira heurística conta quantas regiões temos em um tabuleiro e divide esse valor pelo número de cores, dando-nos um valor real que estima quantas áreas faltam ser abertas para resolvermos o tabuleiro.
   - A segunda heurística, e essa sim é nosso "carro chefe", calcula a distância de cada ponto da matriz em relação ao nosso nodo principal, a melhor jogada é a que diminui a maior distância. 
 
-  - Essas heurísticas são somadas, a jogada que tem a menor soma é a melhor. A parte boa da heurística ser um valor real é que não precisamos criar critério de desempate: se duas jogadas diminuem a mesma distância do nodo maais longe, será jogada a que abre mais regiões devido a primeira heurística descrita. Se ainda assim empatamos, então as duas jogadas são boas.
+  - Essas heurísticas são somadas, a jogada que tem a menor soma é a melhor. A parte boa da heurística ser um valor real é que não precisamos criar critério de desempate: se duas jogadas diminuem a mesma distância do nodo mais longe, será jogada a que abre mais regiões devido a primeira heurística descrita. Se ainda assim empatamos, então as duas jogadas são boas.
 
 ## Prevendo a melhor jogada
   - Se considerarmos um tabuleiro da seguinte forma:
@@ -76,7 +76,4 @@
   - Basta usar o comando make, fazer ./flood < _linhas_ _colunas_ _cores_ _matriz do tabuleiro_.
 
 #### Autor
- - Feito com carinho, esforço e suor por Richard Fernando Heise Ferreira (rfhf19@inf.ufpr.br) para a disciplina de Inteligência Artifical, ministrada durante o ERE de 2021 devido à pandemia. Espero que goste :)
-
-
-
+ - Feito com carinho, esforço e força de vontade por Richard Fernando Heise Ferreira (rfhf19@inf.ufpr.br) para a disciplina de Inteligência Artifical, ministrada durante o ERE de 2021 devido à pandemia. Espero que goste :) CCQL
