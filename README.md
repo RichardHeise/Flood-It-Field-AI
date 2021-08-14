@@ -8,7 +8,7 @@
  - Este trabalho se propõe a resolver tabuleiros do jogo Flood It (também conhecido como Flood Field ou Flood Fill) utilizando uma inteligência artifical programada em C++.
 
 ## O Problema
- - Como visto em aula, uma IA que resolve o Flood Field de maneira ótima -- isto é, sempre com a melhor sequência de jogadas -- pode ser obtida através de um algoritmo como o A*. No entanto, estamos limitados a 8GB de RAM e 2 minutos no máximo de execução de código; conclui-se, portanto, que seria inviável utilizar o A* e verificar todas as possibilidades de jogadas, ou seja, não há como garantir a solução ótima, porém temos como garantir uma solução boa o bastante: foi implementado um algoritmo guloso (greedy) que utiliza-se de uma boa heurística, previsão de jogadas e detecção de possíveis jogadas para chegar a uma solução razoável dentro de um tempo hábil.
+ - Como visto em aula, uma IA que resolve o Flood Field de maneira ótima -- isto é, sempre com a melhor sequência de jogadas -- pode ser obtida através de um algoritmo como o A*. No entanto, estamos limitados a 8GB de RAM e 2 minutos no máximo de execução de código; conclui-se, portanto, que seria inviável utilizar o A* e verificar todas as possibilidades de jogadas, ou seja, não há como garantir a solução ótima; temos, porém, como garantir uma solução boa o bastante: foi implementado um algoritmo guloso (greedy) que utiliza-se de uma boa heurística, previsão de jogadas e detecção de possíveis jogadas para chegar a uma solução razoável dentro de um tempo hábil.
 
 ## Código
  ### O código fonte possui três bibliotecas locais: matriz.h, IAra.h e floodlib.h. 
