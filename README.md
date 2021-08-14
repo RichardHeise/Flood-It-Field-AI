@@ -27,7 +27,7 @@
 
 ## Fluxo
  - Em flood.cpp temos nossa main(), ela chamará a leitura das entradas, ou seja, quantidade de linhas, colunas e cores e do próprio tabuleiro em si. Por fim, chamará resolve() que resolverá o jogo.
- - A função resolve() executa um laço em que se busca a melhor jogada; joga-se, então, a melhor jogada e guarda esta jogada em uma lista de jogadas que será escrita na tela ao fim.
+ - A função resolve() executa um laço em que se busca e joga a melhor jogada. Ela será, em seguida, guardada em uma lista de melhores jogadas que será mostrada ao final da execução do código.
  - A função que busca a melhor jogada descobrirá, através de outra função, as possíveis jogadas. Em seguida é calculado se haverá previsão de jogadas e quantas deverão ser previstas para cada jogada (essa parte é crucial para o melhor desempenho do código e envolve uma expressão matemática obtida através de testes, mais detalhes no comentário no código em IAra.cpp), logo roda-se um laço para jogadas possíveis, testando-as e guardando a heurística relativa a cada jogada em uma lista que associa cor a uma heurística. Assim que temos todas nossas possíveis jogadas devidamente testadas, escolhemos a de menor score (detalhes da heurística) e a retornamos como sendo a melhor jogada.
 
 ## Heurística 
