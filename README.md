@@ -5,10 +5,10 @@
 - Recomendo ler esse README.md usando uma ferramenta de leitura de MarkDown (https://stackedit.io/app#, por exemplo). Se desejar, também pode ler diretamente de meu github em https://github.com/RichardHeise/Flood-It-Field-AI, que estará público após o dia 15/08/2021 para evitar possíveis problemas com plágio. Boa leitura.
 
 ## Descrição:
- - Este trabalho propõe-se a resolver tabuleiros do jogo Flood It (também conhecido como Flood Field ou Flood Fill) utilizando uma inteligência artifical programada em C++.
+ - Este trabalho se propõe a resolver tabuleiros do jogo Flood It (também conhecido como Flood Field ou Flood Fill) utilizando uma inteligência artifical programada em C++.
 
 ## O Problema
- - Como visto em aula, uma IA que resolve o Flood Field de maneira ótima -- isto é, sempre com a melhor sequência de jogadas -- pode ser obtida através de um algoritmo como o A*. Acontece que estamos limitados a 8GB de RAM e 2 minutos no máximo de execução de código, ou seja, conclui que seria inviável abrir todas as possibilidades e, portanto, resolvi implementar um algoritmo guloso (greedy) que utiliza-se de uma boa heurística, previsão de jogadas e detecção de possíveis jogadas para chegar a uma solução razoável em tempo hábil.
+ - Como visto em aula, uma IA que resolve o Flood Field de maneira ótima -- isto é, sempre com a melhor sequência de jogadas -- pode ser obtida através de um algoritmo como o A*. No entanto, estamos limitados a 8GB de RAM e 2 minutos no máximo de execução de código; conclui-se, portanto, que seria inviável utilizar o A* e verificar todas as possibilidades de jogadas, ou seja, não há como garantir a solução ótima, porém temos como garantir uma solução boa o bastante: foi implementado um algoritmo guloso (greedy) que utiliza-se de uma boa heurística, previsão de jogadas e detecção de possíveis jogadas para chegar a uma solução razoável dentro de um tempo hábil.
 
 ## Código
  ### O código fonte possui três bibliotecas locais: matriz.h, IAra.h e floodlib.h. 
@@ -26,7 +26,7 @@
  - README.md este arquivo.
 
 ## Fluxo
- - Em flood.cpp temos nossa main(), ela chamará a leitura das entradas, do tabuleiro e, por fim, chamará resolve() que resolverá o jogo.
+ - Em flood.cpp temos nossa main(), ela chamará a leitura das entradas, ou seja, quantidade de linhas, colunas e cores e do próprio tabuleiro em si. Por fim, chamará resolve() que resolverá o jogo.
  - A função resolve() executa um laço em que se busca a melhor jogada; joga-se, então, a melhor jogada e guarda esta jogada em uma lista de jogadas que será escrita na tela ao fim.
  - A função que busca a melhor jogada descobrirá, através de outra função, as possíveis jogadas. Em seguida é calculado se haverá previsão de jogadas e quantas deverão ser previstas para cada jogada (essa parte é crucial para o melhor desempenho do código e envolve uma expressão matemática obtida através de testes, mais detalhes no comentário no código em IAra.cpp), logo roda-se um laço para jogadas possíveis, testando-as e guardando a heurística relativa a cada jogada em uma lista que associa cor a uma heurística. Assim que temos todas nossas possíveis jogadas devidamente testadas, escolhemos a de menor score (detalhes da heurística) e a retornamos como sendo a melhor jogada.
 
@@ -58,7 +58,7 @@
   
   4-> 3 1 2
 
-  Perceba que as duas últimas resolvem o tabuleiro mais rapidamente do que as duas primeiras, ou seja, seria ideal se nosso código conseguisse atingí-la através da heurística, porém, infelizmente a heurística não resolverá esse tabuleiro de forma ideal, o único modo de fazer isso é olhando, para cada jogada possível, qual dela resultará na melhor composição do tabuleiro daqui a algumas jogadas. Para isso, a função preveJogada() foi criada.
+  Perceba que as duas últimas resolvem o tabuleiro mais rapidamente do que as duas primeiras, ou seja, seria ideal se nosso código conseguisse atingí-la através da heurística. Porém, infelizmente, a heurística não resolverá esse tabuleiro de forma ideal. Conlcui-se, portanto, que o único modo de se fazer isso é olhando, para cada jogada possível, qual dela resultará na melhor composição do tabuleiro daqui a algumas jogadas. Para isso, a função preveJogada() foi criada.
 
   ### preveJogada() 
   - Primeiro, recebemos um tabuleiro em que foi executada alguma jogada possível, em seguida, vemos quais são as possíveis jogadas para nosso tabuleiro, rodamos um loop para cada qual dessas e guardamos cada jogada associada a uma heurística em uma lista. Depois, escolhemos a melhor jogada dentre as possíveis e a aplicamos no tabuleiro para que possamos rodar todo esse passo mais uma vez (caso seja interessante). 
