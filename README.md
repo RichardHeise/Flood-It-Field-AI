@@ -76,7 +76,7 @@
   - Você pode, se desejar e eu recomendo, gerar documentação automática usando o comando doxygen. Ele gerará um relatório completo do código em html e latex.
 
 ## Para rodar
-  - Basta usar o comando make, fazer ./flood < _linhas_ _colunas_ _cores_ _matriz do tabuleiro_.
+  - Basta usar o comando make, fazer _./flood_ < **linhas** **colunas** **cores** **matriz_do_tabuleiro**.
 
 #### Autor
  - Feito com carinho, esforço e força de vontade por Richard Fernando Heise Ferreira (rfhf19@inf.ufpr.br) para a disciplina de Inteligência Artifical, ministrada durante o ERE de 2021 devido à pandemia. Espero que goste :) CCQL
